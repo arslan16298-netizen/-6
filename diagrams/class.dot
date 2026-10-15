@@ -1,0 +1,55 @@
+digraph classes {
+    rankdir=TB;
+    dpi=170;
+    nodesep=0.6;
+    ranksep=0.9;
+    node [fontname="DejaVu Sans", fontsize=13, shape=plaintext];
+    edge [fontname="DejaVu Sans", fontsize=12, color="#444444"];
+
+    SelfCheck [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#f4f4f4" COLOR="#666666">
+      <TR><TD ALIGN="CENTER"><B>SelfCheck</B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">- ROUTER: ApprovalRouter</TD></TR>
+      <TR><TD ALIGN="LEFT">- CSV_PATH: String</TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ main(args: String[]): void</TD></TR>
+      <TR><TD ALIGN="LEFT">- unitChecks(): void</TD></TR>
+      <TR><TD ALIGN="LEFT">- dataDriven(): void</TD></TR>
+      <TR><TD ALIGN="LEFT">- interactive(): void</TD></TR>
+    </TABLE>>];
+
+    ApprovalRouter [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#e3f0ff" COLOR="#4a6fa5">
+      <TR><TD ALIGN="CENTER"><B>ApprovalRouter</B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ FINANCE_LIMIT: long = 500000  {static final}</TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">+ route(amount: long, urgent: boolean, risk: RiskLevel,</TD></TR>
+      <TR><TD ALIGN="LEFT">      containsPersonalData: boolean): ApprovalRoute</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>+ addRiskWeight(risk: RiskLevel): int</B>  // вариант 2, часть Б</TD></TR>
+      <TR><TD ALIGN="LEFT">- requireRisk(risk: RiskLevel): void</TD></TR>
+      <TR><TD ALIGN="LEFT">- requiresSecurityReview(containsPersonalData: boolean): boolean</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>- requiresDirectorReview(risk: RiskLevel): boolean</B>  // часть А: HIGH или MEDIUM</TD></TR>
+      <TR><TD ALIGN="LEFT">- requiresFinanceReview(amount: long): boolean</TD></TR>
+      <TR><TD ALIGN="LEFT">- requiresFastTrack(amount: long, urgent: boolean): boolean</TD></TR>
+    </TABLE>>];
+
+    ApprovalRoute [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#e8f0e0" COLOR="#5a7a3c">
+      <TR><TD ALIGN="CENTER">&lt;&lt;enumeration&gt;&gt;<BR/><B>ApprovalRoute</B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">STANDARD<BR ALIGN="LEFT"/>FAST_TRACK<BR ALIGN="LEFT"/>FINANCE_REVIEW<BR ALIGN="LEFT"/>DIRECTOR_REVIEW<BR ALIGN="LEFT"/>SECURITY_REVIEW<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+    RiskLevel [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" BGCOLOR="#e8f0e0" COLOR="#5a7a3c">
+      <TR><TD ALIGN="CENTER">&lt;&lt;enumeration&gt;&gt;<BR/><B>RiskLevel</B></TD></TR>
+      <HR/>
+      <TR><TD ALIGN="LEFT">LOW<BR ALIGN="LEFT"/>MEDIUM<BR ALIGN="LEFT"/>HIGH<BR ALIGN="LEFT"/></TD></TR>
+    </TABLE>>];
+
+    SelfCheck -> ApprovalRouter [label=" uses", style=dashed, arrowhead=open];
+    ApprovalRouter -> ApprovalRoute [label=" returns", style=dashed, arrowhead=open];
+    ApprovalRouter -> RiskLevel [label=" uses", style=dashed, arrowhead=open];
+}

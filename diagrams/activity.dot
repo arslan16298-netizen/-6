@@ -1,0 +1,33 @@
+digraph activity {
+    rankdir=TB;
+    dpi=170;
+    nodesep=0.25;
+    ranksep=0.35;
+    node [fontname="DejaVu Sans", fontsize=13, style="rounded,filled", shape=box, fillcolor="#e3f0ff", color="#4a6fa5", margin="0.18,0.1"];
+    edge [fontname="DejaVu Sans", fontsize=12, color="#444444"];
+
+    start [label="Начало", shape=ellipse, fillcolor="#e0f2d8", color="#5a9a3c"];
+    n1 [label="Получить параметры заявки:\namount, urgent, risk, personal", shape=parallelogram, fillcolor="#e6e0f5", color="#7a64b0"];
+    v [label="amount < 0\nили risk == null?", shape=diamond, style=filled, fillcolor="#fff7c9", color="#b59a1e"];
+    err [label="Выбросить\nIllegalArgumentException", fillcolor="#fde0e0", color="#c05050"];
+    n2 [label="R1: есть\nперсональные данные?", shape=diamond, style=filled, fillcolor="#fff7c9", color="#b59a1e"];
+    n4 [label="R2: риск HIGH\nили MEDIUM?\n(вариант 2)", shape=diamond, style=filled, fillcolor="#fff7c9", color="#b59a1e"];
+    n5 [label="R3: сумма ≥\nFINANCE_LIMIT?", shape=diamond, style=filled, fillcolor="#fff7c9", color="#b59a1e"];
+    n6 [label="R4: срочная и\nсумма < FINANCE_LIMIT?", shape=diamond, style=filled, fillcolor="#fff7c9", color="#b59a1e"];
+    n7 [label="Вернуть маршрут согласования"];
+    end [label="Завершение", shape=ellipse, fillcolor="#ffe3cc", color="#d08040"];
+
+    start -> n1 -> v;
+    v -> err [label=" да"];
+    v -> n2 [label=" нет"];
+    n2 -> n4 [label=" нет"];
+    n4 -> n5 [label=" нет (LOW)"];
+    n5 -> n6 [label=" нет"];
+    n2 -> n7 [label="да:\nSECURITY_REVIEW"];
+    n4 -> n7 [label="да:\nDIRECTOR_REVIEW"];
+    n5 -> n7 [label="да:\nFINANCE_REVIEW"];
+    n6 -> n7 [label="да:\nFAST_TRACK"];
+    n6 -> n7 [label="нет:\nSTANDARD (R5)"];
+    n7 -> end;
+    err -> end;
+}
